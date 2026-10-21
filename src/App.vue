@@ -280,7 +280,7 @@ onUnmounted(() => {
     </section>
 
     <section id="education" class="section education-section" aria-labelledby="education-title">
-      <div class="section-heading" data-reveal>
+      <div class="section-heading">
         <p class="section-kicker"><GraduationCap :size="17" /> Education & Service</p>
         <h2 id="education-title">教育与服役经历</h2>
       </div>
