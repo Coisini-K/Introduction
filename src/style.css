@@ -394,6 +394,10 @@ main {
   border-top: 2px solid var(--ink);
 }
 
+.education-section {
+  padding-top: 36px;
+}
+
 .education-item {
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr);
@@ -928,6 +932,8 @@ html.motion-ready [data-reveal].is-visible {
   .section {
     padding: 76px 0;
   }
+
+  .education-section { padding-top: 40px; }
 
   .section-heading {
     margin-bottom: 34px;
