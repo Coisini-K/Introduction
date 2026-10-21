@@ -1,7 +1,7 @@
 // Add, remove, or reorder entries here. All honors share one unified archive.
 export const honors = [
-  { id: 1, year: 2025, level: '一等奖', category: '数字技术', title: '智慧交通救援调度可视化平台', subtitle: '全国总决赛', file: 'files/smart-traffic.pdf', cover: 'covers/smart-traffic.jpg' },
-  { id: 2, year: 2025, level: '优秀奖', category: '人工智能', title: '第七届全球校园人工智能算法精英大赛', subtitle: '省级赛', file: 'files/ai-algorithm.pdf', cover: 'covers/ai-algorithm.jpg' },
+  { id: 1, year: 2025, level: '一等奖', category: '数字技术', title: '智慧交通救援调度可视化平台', subtitle: '全国总决赛', file: 'files/smart-traffic.pdf', cover: 'covers/smart-traffic.jpg', view: 'files/smart-traffic-render.png' },
+  { id: 2, year: 2025, level: '优秀奖', category: '人工智能', title: '第七届全球校园人工智能算法精英大赛', subtitle: '省级赛', file: 'files/ai-algorithm.pdf', cover: 'covers/ai-algorithm.jpg', view: 'files/ai-algorithm-render.png' },
   { id: 3, year: 2025, level: '二等奖', category: '创新创业', title: '第五届全国大学生技术创新创业大赛', subtitle: '全国赛', file: 'files/innovation.jpg' },
   { id: 4, year: 2025, level: '实践荣誉', category: '综合能力', title: '第十一届全国应用型人才综合技能大赛', subtitle: '“职场秀”职业生涯规划大赛', file: 'files/career.jpg' },
   { id: 5, year: 2025, level: '一等奖', category: '数字技术', title: '程序设计挑战赛', subtitle: 'B组初赛', file: 'files/programming.jpg' },
@@ -9,7 +9,7 @@ export const honors = [
   { id: 7, year: 2025, level: '二等奖', category: '数字技术', title: 'Web前端开发设计', subtitle: '第十一届全国应用型人才综合技能大赛', file: 'files/web-design.png' },
   { id: 8, year: 2025, level: '三等奖', category: '创新创业', title: '“工业美”创新创业项目', subtitle: '第十一届全国应用型人才综合技能大赛', file: 'files/industrial-beauty.png' },
   { id: 9, year: 2025, level: '三等奖', category: '创新创业', title: '全域先锋 · 清障六旋翼无人机', subtitle: '第十一届全国应用型人才综合技能大赛', file: 'files/drone.png' },
-  { id: 10, year: 2025, level: '三等奖', category: '艺术设计', title: '未来设计师 · 全国高校数字艺术设计大赛', subtitle: '全国赛', file: 'files/future-designer.pdf', cover: 'covers/future-designer.jpg' },
+  { id: 10, year: 2025, level: '三等奖', category: '艺术设计', title: '未来设计师 · 全国高校数字艺术设计大赛', subtitle: '全国赛', file: 'files/future-designer.pdf', cover: 'covers/future-designer.jpg', view: 'files/future-designer-render.png' },
   { id: 11, year: 2025, level: '一等奖', category: '数字技术', title: 'AI微信小程序开发挑战赛', subtitle: 'B组', file: 'files/ai-miniprogram.jpg' },
   { id: 12, year: 2024, level: '一等奖', category: '数字技术', title: 'Web网页开发挑战赛', subtitle: '传智杯 · B组初赛', file: 'files/web-challenge.jpg' },
   { id: 13, year: 2025, level: '二等奖', category: '数字技术', title: 'WPS智能办公能力挑战赛', subtitle: 'B组', file: 'files/wps.jpg' },
