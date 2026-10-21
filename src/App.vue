@@ -1,7 +1,6 @@
 <script setup>
 import {
   ArrowUpRight,
-  Award,
   BriefcaseBusiness,
   CheckCircle2,
   Code2,
@@ -18,6 +17,7 @@ import {
 } from '@lucide/vue'
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import profileImage from './assets/profile.png'
+import HonorArchive from './components/HonorArchive.vue'
 
 const menuOpen = ref(false)
 const scrolled = ref(false)
@@ -91,24 +91,6 @@ const skillGroups = [
   {
     title: '平台与协作',
     items: ['GitHub / Gitee', '阿里云 / 宝塔', 'Nginx', 'RabbitMQ / Dubbo', 'TCP/IP 网络排查'],
-  },
-]
-
-const awards = [
-  {
-    title: '第六届传智杯全国 IT 技能大赛',
-    detail: '云计算大数据赛道 · 一等奖',
-    note: '完成云平台搭建与数据处理开发',
-  },
-  {
-    title: '第五届全国大学生技术创新创业大赛',
-    detail: 'AI 大模型应用赛道全国赛 · 二等奖',
-    note: '担任项目队长，统筹项目并完成核心功能研发',
-  },
-  {
-    title: '未来设计师全国高校数字艺术设计大赛',
-    detail: '全国赛 · 三等奖',
-    note: '承担交互与界面设计工作',
   },
 ]
 
@@ -280,29 +262,7 @@ onUnmounted(() => window.removeEventListener('scroll', updateScrollState))
       </div>
     </section>
 
-    <section id="awards" class="section awards-section" aria-labelledby="awards-title">
-      <div class="section-heading awards-heading">
-        <div>
-          <p class="section-kicker"><Award :size="17" /> Recognition</p>
-          <h2 id="awards-title">荣誉证书</h2>
-        </div>
-        <a href="https://coisini-k.github.io/WallFame/" target="_blank" rel="noreferrer">
-          查看全部荣誉 <ArrowUpRight :size="17" />
-        </a>
-      </div>
-
-      <div class="award-list">
-        <article v-for="award in awards" :key="award.title" class="award-item">
-          <Award :size="25" />
-          <div>
-            <h3>{{ award.title }}</h3>
-            <strong>{{ award.detail }}</strong>
-            <p>{{ award.note }}</p>
-          </div>
-        </article>
-      </div>
-      <p class="award-summary">大学期间获得 4 项省赛奖与 7 项国赛奖，多次担任项目负责人并带领团队完成技术攻关。</p>
-    </section>
+    <HonorArchive />
 
     <section id="about" class="section about-section" aria-labelledby="about-title">
       <div class="about-heading">

@@ -1,6 +1,8 @@
 # 黄钶卿个人简历
 
-基于 Vue 3 和 Vite 构建的响应式个人简历网站，可通过 GitHub Actions 自动部署到 GitHub Pages。
+基于 Vue 3 和 Vite 构建的响应式个人简历网站。项目经验、完整荣誉档案与证书原件均在同一页面展示，可通过 GitHub Actions 自动部署到 GitHub Pages。
+
+荣誉记录维护在 `src/data/honors.js`；证书图片或 PDF 放在 `public/honors/files`，PDF 的缩略图放在 `public/honors/covers`。
 
 ## 本地开发
 

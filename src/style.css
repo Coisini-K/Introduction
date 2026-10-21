@@ -411,8 +411,7 @@ main {
   background: #172321;
 }
 
-.projects-heading,
-.awards-heading {
+.projects-heading {
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -562,76 +561,6 @@ main {
   list-style: none;
 }
 
-.awards-section {
-  width: 100%;
-  padding-right: max(24px, calc((100vw - 1160px) / 2));
-  padding-left: max(24px, calc((100vw - 1160px) / 2));
-  background: #edf3f1;
-}
-
-.awards-heading a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--teal);
-  color: var(--teal);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.award-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 2px solid var(--ink);
-}
-
-.award-item {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 16px;
-  min-height: 230px;
-  padding: 30px 24px;
-  border-right: 1px solid #c7d2cf;
-}
-
-.award-item:first-child {
-  padding-left: 0;
-}
-
-.award-item:last-child {
-  padding-right: 0;
-  border-right: 0;
-}
-
-.award-item > svg {
-  color: var(--coral);
-}
-
-.award-item h3 {
-  margin: 0 0 12px;
-  font-size: 17px;
-  line-height: 1.55;
-}
-
-.award-item strong {
-  color: var(--teal);
-  font-size: 15px;
-}
-
-.award-item p {
-  margin: 15px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.award-summary {
-  margin: 24px 0 0;
-  color: #4d5b57;
-  font-size: 14px;
-}
-
 .about-section {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
@@ -773,18 +702,6 @@ main {
     padding-left: 0;
   }
 
-  .award-list {
-    grid-template-columns: 1fr;
-  }
-
-  .award-item,
-  .award-item:first-child,
-  .award-item:last-child {
-    min-height: auto;
-    padding: 24px 0;
-    border-right: 0;
-    border-bottom: 1px solid #c7d2cf;
-  }
 }
 
 @media (max-width: 640px) {
@@ -850,14 +767,12 @@ main {
     width: fit-content;
   }
 
-  .projects-section,
-  .awards-section {
+  .projects-section {
     padding-right: 16px;
     padding-left: 16px;
   }
 
-  .projects-heading,
-  .awards-heading {
+  .projects-heading {
     align-items: start;
     flex-direction: column;
     gap: 18px;
