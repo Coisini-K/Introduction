@@ -25,6 +25,5 @@ export const honors = [
   { id: 23, year: 2023, level: '优秀奖', category: '校园荣誉', title: '阳光体育活动', subtitle: '校园体育活动', file: 'files/sunshine-sports.jpg' },
   { id: 24, year: 2023, level: '一等奖', category: '校园荣誉', title: '阳光体育活动', subtitle: '校园体育活动', file: 'files/sunshine-sports-first.jpg' },
   { id: 25, year: 2023, level: '二等奖', category: '校园荣誉', title: '优秀奖学金', subtitle: '学业表现', file: 'files/scholarship.jpg' },
-  { id: 26, year: 2023, level: '结业证书', category: '校园荣誉', title: '入党积极分子培训班结业证书', subtitle: '思想成长', file: 'files/activist.jpg' },
   { id: 27, year: 2023, level: '优秀奖', category: '校园荣誉', title: '优秀学生共青团干部', subtitle: '学生工作', file: 'files/youth-league.jpg' },
 ]

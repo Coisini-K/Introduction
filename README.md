@@ -4,6 +4,8 @@
 
 荣誉记录维护在 `src/data/honors.js`；证书图片或 PDF 放在 `public/honors/files`，PDF 的缩略图放在 `public/honors/covers`。
 
+网站的“下载简历”入口使用 `public/黄钶卿-个人简历.pdf`。更新纸质版简历后，请同步替换该文件。
+
 ## 本地开发
 
 ```bash

@@ -77,15 +77,15 @@ onUnmounted(() => {
 <template>
   <section id="awards" class="honors-section" aria-labelledby="awards-title">
     <div class="honors-inner">
-      <div class="honors-heading">
+      <div class="honors-heading" data-reveal>
         <div>
           <p class="section-kicker"><Award :size="17" /> Recognition</p>
           <h2 id="awards-title">荣誉档案</h2>
         </div>
-        <p>从校园实践到全国赛事，记录每一次认真投入与持续精进。</p>
+        <p>大学期间累计获得 5 项省奖、7 项国奖。这里记录竞赛、校园工作与成长经历中的每一份成果。</p>
       </div>
 
-      <div class="honors-toolbar">
+      <div class="honors-toolbar" data-reveal>
         <p><strong>{{ honors.length }}</strong><span>份荣誉记录</span></p>
         <div class="honors-controls">
           <label class="honors-search">
@@ -115,7 +115,7 @@ onUnmounted(() => {
         <button type="button" @click="query = ''; level = levels[0]">清除筛选</button>
       </div>
 
-      <div class="journey">
+      <div class="journey" data-reveal>
         <div class="journey-heading"><h3>成长轨迹</h3><span>2022 - 2025</span></div>
         <ol>
           <li v-for="item in milestones" :key="item.year">
@@ -153,7 +153,7 @@ onUnmounted(() => {
 .honors-section {
   scroll-margin-top: 72px;
   padding: 104px max(24px, calc((100vw - 1160px) / 2));
-  background: #edf3f1;
+  background: #eff2ee;
 }
 
 .honors-inner { max-width: 1160px; margin: 0 auto; }
@@ -176,7 +176,7 @@ onUnmounted(() => {
 .honor-card:focus-visible { outline: 2px solid var(--teal); outline-offset: 5px; }
 .honor-image { position: relative; display: block; overflow: hidden; width: 100%; aspect-ratio: 4 / 3; background: #dce5e1; }
 .honor-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 200ms ease; }
-.honor-card:hover .honor-image img, .honor-card:focus-visible .honor-image img { transform: scale(1.035); }
+.honor-card:hover .honor-image img, .honor-card:focus-visible .honor-image img { transform: scale(1.045); }
 .honor-open { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 38px; height: 38px; color: var(--teal); background: #fff; }
 .honor-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 15px 0 9px; color: #66746f; font-size: 12px; }
 .honor-meta strong { flex: none; padding: 4px 7px; border: 1px solid #b6cbc4; color: var(--teal); font-size: 11px; font-weight: 700; }
@@ -202,7 +202,7 @@ onUnmounted(() => {
 .honor-dialog-top h2 { margin: 5px 0 0; font-size: 20px; line-height: 1.35; }
 .honor-close, .honor-dialog-actions button { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #b9c8c3; color: var(--ink); background: #fff; cursor: pointer; }
 .honor-close:hover, .honor-dialog-actions button:hover { border-color: var(--teal); color: var(--teal); }
-.honor-viewer { display: grid; place-items: center; min-height: 0; overflow: hidden; background: #172321; }
+.honor-viewer { display: grid; place-items: center; min-height: 0; overflow: hidden; background: #202b27; }
 .honor-viewer img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
 .honor-dialog-detail { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; min-width: 0; font-size: 13px; }
 .honor-dialog-detail strong { color: var(--teal); white-space: nowrap; }
