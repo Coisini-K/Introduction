@@ -1,6 +1,6 @@
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { ArrowUpRight, Award, ChevronLeft, ChevronRight, Search, X } from '@lucide/vue'
+import { computed, ref } from 'vue'
+import { ArrowUpRight, Award, Search } from '@lucide/vue'
 import { honors } from '../data/honors'
 
 const levels = ['全部奖项', '一等奖', '二等奖', '三等奖', '优秀奖', '其他荣誉']
@@ -13,11 +13,6 @@ const milestones = [
 
 const query = ref('')
 const level = ref(levels[0])
-const activeHonor = ref(null)
-const closeButton = ref(null)
-let previousFocus = null
-let previousOverflow = ''
-
 const filteredHonors = computed(() => {
   const needle = query.value.trim().toLowerCase()
   return honors.filter((honor) => {
@@ -30,48 +25,8 @@ const filteredHonors = computed(() => {
     return matchesLevel && matchesQuery
   })
 })
-const activeIndex = computed(() => filteredHonors.value.findIndex((honor) => honor.id === activeHonor.value?.id))
 const assetUrl = (path) => `${import.meta.env.BASE_URL}honors/${path}`
 const coverUrl = (honor) => assetUrl(honor.cover || honor.file)
-
-function openHonor(honor, event) {
-  previousFocus = event.currentTarget
-  activeHonor.value = honor
-  nextTick(() => closeButton.value?.focus())
-}
-
-function closeHonor() {
-  activeHonor.value = null
-  nextTick(() => previousFocus?.focus())
-}
-
-function move(direction) {
-  if (!filteredHonors.value.length) return
-  const next = (activeIndex.value + direction + filteredHonors.value.length) % filteredHonors.value.length
-  activeHonor.value = filteredHonors.value[next]
-}
-
-function onKeydown(event) {
-  if (!activeHonor.value) return
-  if (event.key === 'Escape') closeHonor()
-  if (event.key === 'ArrowLeft') move(-1)
-  if (event.key === 'ArrowRight') move(1)
-}
-
-watch(activeHonor, (honor) => {
-  if (honor) {
-    previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = previousOverflow
-  }
-})
-
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => {
-  window.removeEventListener('keydown', onKeydown)
-  document.body.style.overflow = previousOverflow
-})
 </script>
 
 <template>
@@ -100,7 +55,7 @@ onUnmounted(() => {
 
       <p class="honors-count" aria-live="polite">显示 {{ filteredHonors.length }} 项</p>
       <div v-if="filteredHonors.length" class="honors-grid">
-        <button v-for="honor in filteredHonors" :key="honor.id" class="honor-card" type="button" :aria-label="`查看${honor.title}证书`" @click="openHonor(honor, $event)">
+        <a v-for="honor in filteredHonors" :key="honor.id" class="honor-card" :href="assetUrl(honor.file)" target="_blank" rel="noopener noreferrer" :aria-label="`查看${honor.title}证书原件（新窗口打开）`">
           <span class="honor-image">
             <img :src="coverUrl(honor)" :alt="`${honor.title}证书缩略图`" loading="lazy" />
             <span class="honor-open"><ArrowUpRight :size="20" aria-hidden="true" /></span>
@@ -108,7 +63,7 @@ onUnmounted(() => {
           <span class="honor-meta"><span>{{ honor.year }} · {{ honor.category }}</span><strong>{{ honor.level }}</strong></span>
           <span class="honor-title">{{ honor.title }}</span>
           <span class="honor-subtitle">{{ honor.subtitle }}</span>
-        </button>
+        </a>
       </div>
       <div v-else class="honors-empty">
         <p>没有找到相关荣誉</p>
@@ -128,25 +83,6 @@ onUnmounted(() => {
     </div>
   </section>
 
-  <div v-if="activeHonor" class="honor-modal" role="dialog" aria-modal="true" :aria-label="activeHonor.title" @click.self="closeHonor">
-    <div class="honor-dialog">
-      <div class="honor-dialog-top">
-        <div><span>{{ activeHonor.year }} · {{ activeHonor.category }}</span><h2>{{ activeHonor.title }}</h2></div>
-        <button ref="closeButton" type="button" class="honor-close" aria-label="关闭证书预览" title="关闭" @click="closeHonor"><X :size="23" /></button>
-      </div>
-      <div class="honor-viewer">
-        <img :src="coverUrl(activeHonor)" :alt="`${activeHonor.title}证书预览`" />
-      </div>
-      <div class="honor-dialog-bottom">
-        <div class="honor-dialog-detail"><strong>{{ activeHonor.level }}</strong><span>{{ activeHonor.subtitle }}</span></div>
-        <div class="honor-dialog-actions">
-          <a :href="assetUrl(activeHonor.file)" target="_blank" rel="noopener noreferrer">查看原件 <ArrowUpRight :size="17" /></a>
-          <button type="button" aria-label="上一项荣誉" title="上一项" @click="move(-1)"><ChevronLeft :size="21" /></button>
-          <button type="button" aria-label="下一项荣誉" title="下一项" @click="move(1)"><ChevronRight :size="21" /></button>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style scoped>
@@ -194,23 +130,6 @@ onUnmounted(() => {
 .journey li span { display: block; margin-bottom: 14px; color: var(--coral); font-size: 13px; font-weight: 800; }
 .journey li strong { font-size: 17px; }
 .journey li p { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-.honor-modal { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 28px; background: rgba(13, 22, 20, .9); }
-.honor-dialog { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; width: min(1100px, 100%); height: min(820px, 100%); min-height: 0; background: #f7f8f6; }
-.honor-dialog-top, .honor-dialog-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 24px; }
-.honor-dialog-top > div { min-width: 0; }
-.honor-dialog-top span { color: var(--teal); font-size: 12px; font-weight: 700; }
-.honor-dialog-top h2 { margin: 5px 0 0; font-size: 20px; line-height: 1.35; }
-.honor-close, .honor-dialog-actions button { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #b9c8c3; color: var(--ink); background: #fff; cursor: pointer; }
-.honor-close:hover, .honor-dialog-actions button:hover { border-color: var(--teal); color: var(--teal); }
-.honor-viewer { display: grid; place-items: center; min-height: 0; overflow: hidden; background: #202b27; }
-.honor-viewer img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
-.honor-dialog-detail { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; min-width: 0; font-size: 13px; }
-.honor-dialog-detail strong { color: var(--teal); white-space: nowrap; }
-.honor-dialog-detail span { color: var(--muted); }
-.honor-dialog-actions { display: flex; align-items: center; gap: 8px; }
-.honor-dialog-actions a { display: inline-flex; align-items: center; gap: 6px; margin-right: 8px; color: var(--teal); font-size: 13px; font-weight: 700; white-space: nowrap; }
-.honor-dialog-actions a:hover { text-decoration: underline; }
-
 @media (max-width: 900px) {
   .honors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .journey ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -229,11 +148,5 @@ onUnmounted(() => {
   .journey { margin-top: 70px; }
   .journey ol { grid-template-columns: 1fr 1fr; gap: 16px; }
   .journey-heading h3 { font-size: 25px; }
-  .honor-modal { padding: 10px; }
-  .honor-dialog { height: min(100%, 760px); }
-  .honor-dialog-top, .honor-dialog-bottom { padding: 12px; }
-  .honor-dialog-top h2 { font-size: 16px; }
-  .honor-dialog-bottom { flex-wrap: wrap; }
-  .honor-dialog-actions { width: 100%; justify-content: space-between; }
 }
 </style>
