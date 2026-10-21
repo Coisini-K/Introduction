@@ -241,6 +241,25 @@ onUnmounted(() => {
 
   <main id="top">
     <section class="intro" aria-labelledby="intro-title">
+      <div class="code-backdrop" aria-hidden="true">
+        <div class="code-backdrop-rail">
+          <span>01&nbsp; // profile.ts</span>
+          <span>02&nbsp; const focus = [</span>
+          <span>03&nbsp; &nbsp; 'full-stack',</span>
+          <span>04&nbsp; &nbsp; 'agent systems'</span>
+          <span>05&nbsp; ]</span>
+          <span>06&nbsp; export default focus</span>
+        </div>
+        <div class="code-backdrop-source">
+          <div class="code-line"><span class="code-comment">// profile / systems.ts</span></div>
+          <div class="code-line"><span class="code-pink">import</span> { <span class="code-cyan">build</span> } <span class="code-pink">from</span> <span class="code-lime">'./systems'</span></div>
+          <div class="code-line"><span class="code-pink">const</span> <span class="code-cyan">engineer</span> = {</div>
+          <div class="code-line code-indent">name: <span class="code-lime">'Huang Keqing'</span>,</div>
+          <div class="code-line code-indent">focus: [<span class="code-lime">'full-stack'</span>, <span class="code-lime">'AI agents'</span>],</div>
+          <div class="code-line code-indent">status: <span class="code-lime">'building'</span></div>
+          <div class="code-line code-cursor">}</div>
+        </div>
+      </div>
       <div class="intro-inner">
         <div class="intro-copy" data-reveal>
           <p class="eyebrow"><span></span> Me_HCK · 全栈开发 / AI 应用</p>
