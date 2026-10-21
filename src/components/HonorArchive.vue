@@ -177,38 +177,52 @@ onUnmounted(() => {
 
 <style scoped>
 .honors-section {
+  --ink: #14211d;
+  --muted: #51645b;
+  --line: #b9c9bf;
+  --teal: #006e62;
+  --coral: #bd306e;
+  --acid: #a8d52a;
   scroll-margin-top: 72px;
   padding: 104px max(24px, calc((100vw - 1160px) / 2));
-  background: #eff2ee;
+  color: var(--ink);
+  color-scheme: light;
+  background:
+    linear-gradient(90deg, rgba(0, 110, 98, .055) 1px, transparent 1px) 0 0 / 80px 80px,
+    #e8f1e9;
 }
 
 .honors-inner { max-width: 1160px; margin: 0 auto; }
 .honors-heading { display: flex; align-items: end; justify-content: space-between; gap: 40px; margin-bottom: 42px; }
-.honors-heading h2 { margin: 0; font-size: clamp(38px, 5vw, 62px); line-height: 1.1; }
+.honors-heading h2 { margin: 0; font-size: clamp(38px, 5vw, 62px); line-height: 1.1; text-shadow: 2px 2px 0 rgba(0, 110, 98, .17); }
+.honors-heading h2::after { display: inline-block; width: 9px; height: 9px; margin-left: 13px; background: #bd306e; content: ''; }
 .honors-heading > p { max-width: 390px; margin: 0 0 4px; color: var(--muted); font-size: 15px; line-height: 1.8; }
-.honors-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid #c7d2cf; }
+.honors-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
 .honors-toolbar > p { display: flex; align-items: baseline; gap: 10px; margin: 0; white-space: nowrap; }
 .honors-toolbar > p strong { color: var(--teal); font-size: 31px; line-height: 1; }
-.honors-toolbar > p span { color: #53625d; font-size: 13px; }
+.honors-toolbar > p span { color: var(--muted); font-size: 13px; }
 .honors-controls { display: flex; gap: 10px; }
-.honors-search { display: flex; align-items: center; gap: 10px; width: min(360px, 36vw); height: 44px; padding: 0 13px; border: 1px solid #b9c8c3; background: #fff; color: var(--teal); }
+.honors-search { display: flex; align-items: center; gap: 10px; width: min(360px, 36vw); height: 44px; padding: 0 13px; border: 1px solid #93ada2; background: #f7fbf4; color: var(--teal); }
 .honors-search:focus-within, .honors-controls select:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .honors-search input { min-width: 0; width: 100%; border: 0; outline: 0; color: var(--ink); background: transparent; font: inherit; font-size: 14px; }
-.honors-search input::placeholder { color: #84908c; }
-.honors-controls select { min-width: 135px; height: 44px; padding: 0 12px; border: 1px solid #b9c8c3; border-radius: 0; color: var(--ink); background: #fff; font: inherit; font-size: 14px; cursor: pointer; }
-.honors-count { margin: 22px 0 19px; color: #677671; font-size: 13px; }
+.honors-search input::placeholder { color: #697d72; }
+.honors-controls select { min-width: 135px; height: 44px; padding: 0 12px; border: 1px solid #93ada2; border-radius: 0; color: var(--ink); background: #f7fbf4; font: inherit; font-size: 14px; cursor: pointer; }
+.honors-count { margin: 22px 0 19px; color: var(--muted); font-size: 13px; }
 .honors-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px 24px; }
-.honor-card { display: block; min-width: 0; padding: 0 0 20px; border: 0; border-bottom: 1px solid #c7d2cf; color: var(--ink); background: transparent; text-align: left; font: inherit; cursor: pointer; }
+.honor-card { display: block; min-width: 0; padding: 0 0 20px; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); background: transparent; text-align: left; font: inherit; cursor: pointer; transition: border-color 220ms ease; }
+.honor-card:hover { border-bottom-color: var(--teal); }
 .honor-card:focus-visible { outline: 2px solid var(--teal); outline-offset: 5px; }
-.honor-image { position: relative; display: block; overflow: hidden; width: 100%; aspect-ratio: 4 / 3; background: #dce5e1; }
-.honor-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 200ms ease; }
-.honor-card:hover .honor-image img, .honor-card:focus-visible .honor-image img { transform: scale(1.045); }
-.honor-open { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 38px; height: 38px; color: var(--teal); background: #fff; }
-.honor-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 15px 0 9px; color: #66746f; font-size: 12px; }
-.honor-meta strong { flex: none; padding: 4px 7px; border: 1px solid #b6cbc4; color: var(--teal); font-size: 11px; font-weight: 700; }
+.honor-image { position: relative; display: block; overflow: hidden; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #91aca0; background: #dce5e1; }
+.honor-image::after { position: absolute; inset: 0; border: 3px solid transparent; content: ''; pointer-events: none; transition: border-color 200ms ease; }
+.honor-card:hover .honor-image::after, .honor-card:focus-visible .honor-image::after { border-color: var(--acid); }
+.honor-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 300ms ease, filter 300ms ease; }
+.honor-card:hover .honor-image img, .honor-card:focus-visible .honor-image img { transform: scale(1.045); filter: saturate(1.12); }
+.honor-open { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 38px; height: 38px; color: #101514; background: #d8fb5f; box-shadow: 3px 3px 0 #bd306e; }
+.honor-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 15px 0 9px; color: var(--muted); font-size: 12px; }
+.honor-meta strong { flex: none; padding: 4px 7px; border: 1px solid #81aaa0; color: var(--teal); font-size: 11px; font-weight: 700; }
 .honor-title { display: block; font-size: 18px; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
-.honor-subtitle { display: block; margin-top: 7px; color: #697773; font-size: 13px; line-height: 1.5; }
-.honors-empty { display: grid; justify-items: center; gap: 10px; padding: 80px 20px; border-bottom: 1px solid #c7d2cf; color: var(--muted); }
+.honor-subtitle { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.honors-empty { display: grid; justify-items: center; gap: 10px; padding: 80px 20px; border-bottom: 1px solid var(--line); color: var(--muted); }
 .honors-empty p { margin: 0; }
 .honors-empty button { padding: 6px 0; border: 0; border-bottom: 1px solid var(--teal); color: var(--teal); background: none; font: inherit; font-weight: 700; cursor: pointer; }
 .journey { margin-top: 88px; }
@@ -220,22 +234,24 @@ onUnmounted(() => {
 .journey li span { display: block; margin-bottom: 14px; color: var(--coral); font-size: 13px; font-weight: 800; }
 .journey li strong { font-size: 17px; }
 .journey li p { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-.honor-modal { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(13, 22, 20, .9); }
-.honor-dialog { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; width: min(1100px, 100%); height: min(860px, 100%); min-height: 0; background: #f7f8f6; }
+.honor-modal { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(2, 8, 8, .94); }
+.honor-dialog { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; width: min(1100px, 100%); height: min(860px, 100%); min-height: 0; border: 1px solid #5cf5df; color: #f2faf6; background: #111b19; box-shadow: 0 0 36px rgba(92, 245, 223, .13); }
 .honor-dialog-top, .honor-dialog-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 22px; }
+.honor-dialog-top { border-bottom: 1px solid #344442; }
+.honor-dialog-bottom { border-top: 1px solid #344442; }
 .honor-dialog-top > div { min-width: 0; }
-.honor-dialog-top span { color: var(--teal); font-size: 12px; font-weight: 700; }
+.honor-dialog-top span { color: #5cf5df; font-size: 12px; font-weight: 700; }
 .honor-dialog-top h2 { margin: 5px 0 0; font-size: 20px; line-height: 1.35; overflow-wrap: anywhere; }
-.honor-close, .honor-dialog-actions button { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #b9c8c3; color: var(--ink); background: #fff; cursor: pointer; }
-.honor-close:hover, .honor-dialog-actions button:hover { border-color: var(--teal); color: var(--teal); }
-.honor-close:focus-visible, .honor-dialog-actions button:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.honor-viewer { display: grid; place-items: center; min-height: 0; overflow: hidden; background: #202b27; }
+.honor-close, .honor-dialog-actions button { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #5a746d; color: #f2faf6; background: #1d2927; cursor: pointer; }
+.honor-close:hover, .honor-dialog-actions button:hover { border-color: #dcff63; color: #101514; background: #dcff63; }
+.honor-close:focus-visible, .honor-dialog-actions button:focus-visible { outline: 2px solid #dcff63; outline-offset: 2px; }
+.honor-viewer { display: grid; place-items: center; min-height: 0; overflow: hidden; background: #090e0d; }
 .honor-viewer img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .honor-dialog-bottom p { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; min-width: 0; margin: 0; font-size: 13px; }
-.honor-dialog-bottom p strong { color: var(--teal); white-space: nowrap; }
-.honor-dialog-bottom p span { color: var(--muted); }
+.honor-dialog-bottom p strong { color: #dcff63; white-space: nowrap; }
+.honor-dialog-bottom p span { color: #afc1bb; }
 .honor-dialog-actions { display: flex; align-items: center; gap: 8px; }
-.honor-position { min-width: 50px; margin-right: 8px; color: var(--muted); font-size: 12px; text-align: right; white-space: nowrap; }
+.honor-position { min-width: 50px; margin-right: 8px; color: #afc1bb; font-size: 12px; text-align: right; white-space: nowrap; }
 @media (max-width: 900px) {
   .honors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .journey ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
