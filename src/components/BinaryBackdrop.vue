@@ -1,5 +1,7 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+
+const props = defineProps({ enabled: { type: Boolean, default: true } })
 
 const canvas = ref(null)
 let context
@@ -39,7 +41,7 @@ function paint() {
 
 function resize() {
   if (!context) return
-  width = window.innerWidth
+  width = document.documentElement.clientWidth
   height = window.innerHeight
   const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5)
   canvas.value.width = Math.round(width * pixelRatio)
@@ -58,7 +60,7 @@ function resize() {
 
 function animate(timestamp) {
   frame = 0
-  if (document.hidden || motionPreference.matches) return
+  if (document.hidden || motionPreference.matches || !props.enabled) return
   if (!lastPaint) lastPaint = timestamp
   if (timestamp - lastPaint >= 50) {
     elapsed += Math.min(timestamp - lastPaint, 100) / 1000
@@ -69,10 +71,11 @@ function animate(timestamp) {
 }
 
 function syncAnimation() {
+  if (!context || !motionPreference) return
   window.cancelAnimationFrame(frame)
   frame = 0
   lastPaint = 0
-  if (!document.hidden && !motionPreference.matches) frame = window.requestAnimationFrame(animate)
+  if (!document.hidden && !motionPreference.matches && props.enabled) frame = window.requestAnimationFrame(animate)
   else paint()
 }
 
@@ -86,6 +89,8 @@ onMounted(() => {
   document.addEventListener('visibilitychange', syncAnimation)
   motionPreference.addEventListener('change', syncAnimation)
 })
+
+watch(() => props.enabled, syncAnimation)
 
 onUnmounted(() => {
   window.cancelAnimationFrame(frame)

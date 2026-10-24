@@ -1,5 +1,6 @@
 <script setup>
 import {
+  ArrowUp,
   ArrowUpRight,
   BriefcaseBusiness,
   Code2,
@@ -19,10 +20,15 @@ import profileImage from './assets/profile.png'
 import HonorArchive from './components/HonorArchive.vue'
 import BinaryBackdrop from './components/BinaryBackdrop.vue'
 import HeroSignals from './components/HeroSignals.vue'
+import ParticleField from './components/ParticleField.vue'
+import { useInteractiveSurfaces } from './composables/useInteractiveSurfaces'
 
 const menuOpen = ref(false)
 const scrolled = ref(false)
 const scrollProgress = ref(0)
+const effectsEnabled = ref(true)
+const activeSection = ref('')
+useInteractiveSurfaces(effectsEnabled)
 let revealObserver
 
 const navItems = [
@@ -179,11 +185,18 @@ function updateScrollState() {
   scrolled.value = window.scrollY > 12
   const scrollable = document.documentElement.scrollHeight - window.innerHeight
   scrollProgress.value = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0
+  let current = ''
+  for (const item of navItems) {
+    const section = document.getElementById(item.href.slice(1))
+    if (section && section.getBoundingClientRect().top <= window.innerHeight * 0.4) current = item.href
+  }
+  activeSection.value = current
 }
 
 onMounted(() => {
   updateScrollState()
   window.addEventListener('scroll', updateScrollState, { passive: true })
+  window.addEventListener('resize', updateScrollState, { passive: true })
 
   if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.documentElement.classList.add('motion-ready')
@@ -208,13 +221,15 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', updateScrollState)
+  window.removeEventListener('resize', updateScrollState)
   revealObserver?.disconnect()
   document.documentElement.classList.remove('motion-ready')
 })
 </script>
 
 <template>
-  <BinaryBackdrop />
+  <BinaryBackdrop :enabled="effectsEnabled" />
+  <ParticleField :enabled="effectsEnabled" />
   <header class="site-header" :class="{ 'is-scrolled': scrolled }">
     <span class="scroll-progress" :style="{ transform: `scaleX(${scrollProgress})` }" aria-hidden="true"></span>
     <a class="wordmark" href="#top" aria-label="返回顶部" @click="closeMenu">
@@ -223,7 +238,7 @@ onUnmounted(() => {
     </a>
 
     <nav class="desktop-nav" aria-label="主要导航">
-      <a v-for="item in navItems" :key="item.href" :href="item.href">{{ item.label }}</a>
+      <a v-for="item in navItems" :key="item.href" :href="item.href" :aria-current="activeSection === item.href ? 'location' : undefined">{{ item.label }}</a>
     </nav>
 
     <a class="header-action" :href="resumeUrl" download>
@@ -237,7 +252,7 @@ onUnmounted(() => {
     </button>
 
     <nav v-if="menuOpen" class="mobile-nav" aria-label="移动端导航">
-      <a v-for="item in navItems" :key="item.href" :href="item.href" @click="closeMenu">{{ item.label }}</a>
+      <a v-for="item in navItems" :key="item.href" :href="item.href" :aria-current="activeSection === item.href ? 'location' : undefined" @click="closeMenu">{{ item.label }}</a>
       <a :href="resumeUrl" download @click="closeMenu">下载简历</a>
     </nav>
   </header>
@@ -293,7 +308,7 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="portrait-wrap" data-reveal>
+        <div class="portrait-wrap" data-reveal data-interactive>
           <div class="portrait-accent" aria-hidden="true"></div>
           <span class="portrait-coordinate" aria-hidden="true">PROFILE_01 / HKQ</span>
           <img :src="profileImage" alt="黄钶卿个人照片" />
@@ -352,7 +367,7 @@ onUnmounted(() => {
       </div>
 
       <div class="project-list">
-        <article v-for="(project, index) in projects" :key="project.name" class="project-card" data-reveal>
+        <article v-for="(project, index) in projects" :key="project.name" class="project-card" data-reveal data-interactive>
           <div class="project-index">0{{ index + 1 }}</div>
           <div class="project-main">
             <p class="project-period">{{ project.period }}</p>
@@ -380,7 +395,7 @@ onUnmounted(() => {
       </div>
 
       <div class="skills-grid">
-        <article v-for="(group, index) in skillGroups" :key="group.title" class="skill-group" data-reveal :style="{ '--reveal-delay': `${index % 3 * 65}ms` }">
+        <article v-for="(group, index) in skillGroups" :key="group.title" class="skill-group" data-reveal data-interactive :style="{ '--reveal-delay': `${index % 3 * 65}ms` }">
           <span class="skill-number">0{{ index + 1 }}</span>
           <h3>{{ group.title }}</h3>
           <ul>
@@ -414,4 +429,12 @@ onUnmounted(() => {
     <span class="footer-status"><i></i> 持续学习，持续构建。</span>
     <a href="mailto:2696897728@qq.com">一起聊聊 <ArrowUpRight :size="17" /></a>
   </footer>
+
+  <aside class="utility-controls" aria-label="页面工具">
+    <button class="effects-toggle" type="button" :aria-pressed="effectsEnabled" :aria-label="effectsEnabled ? '关闭动态效果' : '开启动态效果'" :title="effectsEnabled ? '关闭动态效果' : '开启动态效果'" @click="effectsEnabled = !effectsEnabled">
+      <Sparkles :size="17" aria-hidden="true" />
+      <span>{{ effectsEnabled ? '动效' : '静态' }}</span>
+    </button>
+    <a v-show="scrolled" class="back-to-top" href="#top" aria-label="返回页面顶部" title="返回顶部"><ArrowUp :size="18" aria-hidden="true" /></a>
+  </aside>
 </template>

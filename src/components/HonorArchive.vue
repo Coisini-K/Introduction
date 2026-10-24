@@ -123,7 +123,7 @@ onUnmounted(() => {
 
       <p class="honors-count" aria-live="polite">显示 {{ filteredHonors.length }} 项</p>
       <div v-if="filteredHonors.length" class="honors-grid">
-        <button v-for="honor in filteredHonors" :key="honor.id" class="honor-card" type="button" :aria-label="`查看${honor.title}证书原件`" @click="openHonor(honor, $event)">
+        <button v-for="honor in filteredHonors" :key="honor.id" class="honor-card" data-interactive type="button" :aria-label="`查看${honor.title}证书原件`" @click="openHonor(honor, $event)">
           <span class="honor-image">
             <img :src="coverUrl(honor)" :alt="`${honor.title}证书缩略图`" loading="lazy" />
             <span class="honor-open"><Maximize2 :size="19" aria-hidden="true" /></span>
