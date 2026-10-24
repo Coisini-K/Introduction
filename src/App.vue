@@ -17,6 +17,8 @@ import {
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import profileImage from './assets/profile.png'
 import HonorArchive from './components/HonorArchive.vue'
+import BinaryBackdrop from './components/BinaryBackdrop.vue'
+import HeroSignals from './components/HeroSignals.vue'
 
 const menuOpen = ref(false)
 const scrolled = ref(false)
@@ -212,6 +214,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <BinaryBackdrop />
   <header class="site-header" :class="{ 'is-scrolled': scrolled }">
     <span class="scroll-progress" :style="{ transform: `scaleX(${scrollProgress})` }" aria-hidden="true"></span>
     <a class="wordmark" href="#top" aria-label="返回顶部" @click="closeMenu">
@@ -241,6 +244,7 @@ onUnmounted(() => {
 
   <main id="top">
     <section class="intro" aria-labelledby="intro-title">
+      <HeroSignals />
       <div class="code-backdrop" aria-hidden="true">
         <div class="code-backdrop-rail">
           <span>01&nbsp; // profile.ts</span>
@@ -261,8 +265,10 @@ onUnmounted(() => {
         </div>
       </div>
       <div class="intro-inner">
+        <span class="frame-corner frame-corner-top" aria-hidden="true"></span>
+        <span class="frame-corner frame-corner-bottom" aria-hidden="true"></span>
         <div class="intro-copy" data-reveal>
-          <p class="eyebrow"><span></span> Me_HCK · 全栈开发 / AI 应用</p>
+          <p class="eyebrow"><span></span> Me_HCK <b>/</b> 全栈开发 / AI 应用</p>
           <h1 id="intro-title">黄钶卿</h1>
           <p class="intro-lead">从业务需求到 AI 应用，交付可运行的软件产品。</p>
           <p class="intro-summary">
@@ -289,6 +295,7 @@ onUnmounted(() => {
 
         <div class="portrait-wrap" data-reveal>
           <div class="portrait-accent" aria-hidden="true"></div>
+          <span class="portrait-coordinate" aria-hidden="true">PROFILE_01 / HKQ</span>
           <img :src="profileImage" alt="黄钶卿个人照片" />
           <div class="portrait-caption">
             <span>广东科技学院</span>
@@ -404,6 +411,7 @@ onUnmounted(() => {
       <strong>黄钶卿</strong>
       <span>Me_HCK · 全栈开发与 AI 应用</span>
     </div>
+    <span class="footer-status"><i></i> 持续学习，持续构建。</span>
     <a href="mailto:2696897728@qq.com">一起聊聊 <ArrowUpRight :size="17" /></a>
   </footer>
 </template>
