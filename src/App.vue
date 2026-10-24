@@ -26,9 +26,8 @@ import { useInteractiveSurfaces } from './composables/useInteractiveSurfaces'
 const menuOpen = ref(false)
 const scrolled = ref(false)
 const scrollProgress = ref(0)
-const effectsEnabled = ref(true)
 const activeSection = ref('')
-useInteractiveSurfaces(effectsEnabled)
+useInteractiveSurfaces()
 let revealObserver
 
 const navItems = [
@@ -228,8 +227,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <BinaryBackdrop :enabled="effectsEnabled" />
-  <ParticleField :enabled="effectsEnabled" />
+  <BinaryBackdrop />
+  <ParticleField />
   <header class="site-header" :class="{ 'is-scrolled': scrolled }">
     <span class="scroll-progress" :style="{ transform: `scaleX(${scrollProgress})` }" aria-hidden="true"></span>
     <a class="wordmark" href="#top" aria-label="返回顶部" @click="closeMenu">
@@ -431,10 +430,6 @@ onUnmounted(() => {
   </footer>
 
   <aside class="utility-controls" aria-label="页面工具">
-    <button class="effects-toggle" type="button" :aria-pressed="effectsEnabled" :aria-label="effectsEnabled ? '关闭动态效果' : '开启动态效果'" :title="effectsEnabled ? '关闭动态效果' : '开启动态效果'" @click="effectsEnabled = !effectsEnabled">
-      <Sparkles :size="17" aria-hidden="true" />
-      <span>{{ effectsEnabled ? '动效' : '静态' }}</span>
-    </button>
     <a v-show="scrolled" class="back-to-top" href="#top" aria-label="返回页面顶部" title="返回顶部"><ArrowUp :size="18" aria-hidden="true" /></a>
   </aside>
 </template>

@@ -1,7 +1,6 @@
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
-const props = defineProps({ enabled: { type: Boolean, default: true } })
 const canvas = ref(null)
 const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, active: false }
 let context
@@ -21,7 +20,7 @@ function createParticle() {
     y: Math.random() * height,
     vx: (Math.random() - 0.5) * 0.24,
     vy: (Math.random() - 0.5) * 0.24,
-    radius: 0.7 + Math.random() * 1.3,
+    radius: 1.2 + Math.random() * 1.7,
     phase: Math.random() * Math.PI * 2,
     purple: Math.random() > 0.76,
   }
@@ -34,8 +33,8 @@ function resize() {
   canvas.value.width = Math.round(width * ratio)
   canvas.value.height = Math.round(height * ratio)
   context.setTransform(ratio, 0, 0, ratio, 0, 0)
-  const limit = width < 640 ? 32 : 85
-  const count = Math.min(limit, Math.max(22, Math.round(width * height / 14000)))
+  const limit = width < 640 ? 65 : 180
+  const count = Math.min(limit, Math.max(36, Math.round(width * height / 6200)))
   particles = Array.from({ length: count }, createParticle)
   sparks = []
   ripples = []
@@ -45,7 +44,6 @@ function resize() {
 
 function paint(delta) {
   context.clearRect(0, 0, width, height)
-  if (!props.enabled) return
   const step = delta * 60
   time += delta
   const ease = 1 - Math.exp(-delta * 12)
@@ -68,9 +66,12 @@ function paint(delta) {
     const particle = particles[index]
     for (let next = index + 1; next < particles.length; next++) {
       const neighbor = particles[next]
-      const distance = Math.hypot(particle.drawX - neighbor.drawX, particle.drawY - neighbor.drawY)
-      if (distance > 125) continue
-      const opacity = (1 - distance / 125) * (particle.nearPointer ? 0.29 : 0.12)
+      const dx = particle.drawX - neighbor.drawX
+      const dy = particle.drawY - neighbor.drawY
+      const distanceSquared = dx * dx + dy * dy
+      if (distanceSquared > 112 * 112) continue
+      const distance = Math.sqrt(distanceSquared)
+      const opacity = (1 - distance / 112) * (particle.nearPointer ? 0.29 : 0.12)
       context.strokeStyle = `rgba(98, 199, 240, ${opacity})`
       context.lineWidth = 0.6
       context.beginPath()
@@ -87,9 +88,9 @@ function paint(delta) {
       context.lineTo(particle.drawX, particle.drawY)
       context.stroke()
     }
-    const opacity = 0.3 + Math.sin(time * 0.8 + particle.phase) * 0.16 + (particle.nearPointer ? 0.3 : 0)
-    const color = particle.purple ? '188, 132, 255' : '117, 223, 255'
-    context.fillStyle = `rgba(${color}, ${opacity * 0.1})`
+    const opacity = 0.58 + Math.sin(time * 0.8 + particle.phase) * 0.16 + (particle.nearPointer ? 0.16 : 0)
+    const color = particle.purple ? '201, 156, 255' : '139, 235, 255'
+    context.fillStyle = `rgba(${color}, ${opacity * 0.12})`
     context.beginPath()
     context.arc(particle.drawX, particle.drawY, particle.radius * 4, 0, Math.PI * 2)
     context.fill()
@@ -97,6 +98,12 @@ function paint(delta) {
     context.beginPath()
     context.arc(particle.drawX, particle.drawY, particle.radius, 0, Math.PI * 2)
     context.fill()
+    if (particle.radius > 2) {
+      context.fillStyle = `rgba(225, 250, 255, ${opacity * 0.85})`
+      context.beginPath()
+      context.arc(particle.drawX, particle.drawY, particle.radius * 0.4, 0, Math.PI * 2)
+      context.fill()
+    }
   }
 
   sparks = sparks.filter(spark => spark.life > 0)
@@ -109,7 +116,7 @@ function paint(delta) {
     const opacity = Math.max(0, spark.life / spark.duration)
     context.fillStyle = `rgba(${spark.purple ? '199, 143, 255' : '139, 243, 255'}, ${opacity * 0.85})`
     context.beginPath()
-    context.arc(spark.x, spark.y, 1.6 * opacity + 0.4, 0, Math.PI * 2)
+    context.arc(spark.x, spark.y, 2.3 * opacity + 0.6, 0, Math.PI * 2)
     context.fill()
   }
 
@@ -127,7 +134,7 @@ function paint(delta) {
 
 function animate(timestamp) {
   frame = 0
-  if (document.hidden || motionPreference.matches || !props.enabled) return
+  if (document.hidden || motionPreference.matches) return
   if (!lastPaint) lastPaint = timestamp
   if (timestamp - lastPaint >= 32) {
     paint(Math.min((timestamp - lastPaint) / 1000, 0.06))
@@ -141,7 +148,7 @@ function resetPointer() {
 }
 
 function movePointer(event) {
-  if (!props.enabled || motionPreference.matches || event.pointerType !== 'mouse') return
+  if (motionPreference.matches || event.pointerType !== 'mouse') return
   if (event.target instanceof Element && event.target.closest('.honor-modal')) return resetPointer()
   if (!pointer.active) {
     pointer.x = event.clientX
@@ -153,9 +160,9 @@ function movePointer(event) {
 }
 
 function burst(event) {
-  if (!props.enabled || motionPreference.matches || event.button !== 0 || !event.isPrimary) return
+  if (motionPreference.matches || event.button !== 0 || !event.isPrimary) return
   if (event.target instanceof Element && event.target.closest('input, textarea, select, .honor-modal, .utility-controls')) return
-  const count = width < 640 ? 12 : 22
+  const count = width < 640 ? 18 : 32
   for (let index = 0; index < count; index++) {
     const angle = Math.PI * 2 * index / count + Math.random() * 0.2
     const speed = 45 + Math.random() * 115
@@ -167,7 +174,7 @@ function burst(event) {
     })
   }
   // Bound the work even during rapid clicks or repeated touchscreen taps.
-  sparks = sparks.slice(-132)
+  sparks = sparks.slice(-192)
   ripples.push({ x: event.clientX, y: event.clientY, life: 0.85 })
   ripples = ripples.slice(-6)
 }
@@ -181,7 +188,7 @@ function syncAnimation() {
   ripples = []
   resetPointer()
   paint(0)
-  if (!document.hidden && !motionPreference.matches && props.enabled) frame = window.requestAnimationFrame(animate)
+  if (!document.hidden && !motionPreference.matches) frame = window.requestAnimationFrame(animate)
 }
 
 onMounted(() => {
@@ -198,8 +205,6 @@ onMounted(() => {
   document.addEventListener('visibilitychange', syncAnimation)
   motionPreference.addEventListener('change', syncAnimation)
 })
-
-watch(() => props.enabled, syncAnimation)
 
 onUnmounted(() => {
   window.cancelAnimationFrame(frame)

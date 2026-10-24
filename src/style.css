@@ -208,12 +208,9 @@ main { overflow: clip; }
 .portrait-wrap.is-pointer-active img { will-change: transform; }
 
 .utility-controls { position: fixed; z-index: 19; right: 21px; bottom: 22px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
-.effects-toggle, .back-to-top { display: flex; align-items: center; justify-content: center; width: 43px; border: 1px solid #76d4e652; border-radius: 5px; color: #a4dce9; background: #0a1c30de; backdrop-filter: blur(14px); box-shadow: 0 4px 18px #0003; cursor: pointer; transition: border-color 200ms, color 200ms, background 200ms; }
-.effects-toggle { min-height: 52px; padding: 7px 0; flex-direction: column; gap: 5px; }
-.effects-toggle span { font-size: 9px; letter-spacing: 1px; }
-.effects-toggle[aria-pressed="false"] { color: #8295ab; border-color: #6a8eae40; }
+.back-to-top { display: flex; align-items: center; justify-content: center; width: 43px; border: 1px solid #76d4e652; border-radius: 5px; color: #a4dce9; background: #0a1c30de; backdrop-filter: blur(14px); box-shadow: 0 4px 18px #0003; cursor: pointer; transition: border-color 200ms, color 200ms, background 200ms; }
 .back-to-top { height: 40px; }
-.effects-toggle:hover, .back-to-top:hover { color: #d5fbff; border-color: #76e3f2b3; background: #15394de6; }
+.back-to-top:hover { color: #d5fbff; border-color: #76e3f2b3; background: #15394de6; }
 
 html.motion-ready [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity 650ms ease var(--reveal-delay, 0ms), transform 650ms cubic-bezier(.2, .7, .2, 1) var(--reveal-delay, 0ms); }
 html.motion-ready [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
@@ -329,8 +326,7 @@ html.motion-ready [data-reveal].is-visible { opacity: 1; transform: translateY(0
   .about-copy p { font-size: 12px; }
   .site-footer { align-items: flex-start; flex-direction: column; gap: 28px; padding: 31px 20px; }
   .utility-controls { right: 12px; bottom: 15px; gap: 7px; }
-  .effects-toggle, .back-to-top { width: 39px; }
-  .effects-toggle { min-height: 48px; }
+  .back-to-top { width: 39px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -1,6 +1,6 @@
-import { onMounted, onUnmounted, watch } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
-export function useInteractiveSurfaces(enabled) {
+export function useInteractiveSurfaces() {
   let activeSurface = null
   let frame = 0
   let pointer = null
@@ -34,7 +34,7 @@ export function useInteractiveSurfaces(enabled) {
   }
 
   function move(event) {
-    if (!enabled.value || motionPreference.matches || event.pointerType !== 'mouse') return reset()
+    if (motionPreference.matches || event.pointerType !== 'mouse') return reset()
     pointer = { target: event.target, x: event.clientX, y: event.clientY }
     if (!frame) frame = window.requestAnimationFrame(update)
   }
@@ -47,8 +47,6 @@ export function useInteractiveSurfaces(enabled) {
     document.addEventListener('pointerleave', reset)
     motionPreference.addEventListener('change', reset)
   })
-
-  watch(enabled, reset)
 
   onUnmounted(() => {
     reset()
